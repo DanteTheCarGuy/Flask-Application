@@ -25,13 +25,13 @@ def get_task():
     return render_template("tasks.html", tasks=tasks)
 
 
-@app.route("/register", methods=["GET","POST"])
+@app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
         # Check if username already exists in db
         existing_user = mongo.db.users.find_one(
            {"username": request.form.get("username").lower()})
-           
+
         if existing_user:
             flash("Username already exists")
             return redirect(url_for("register"))
@@ -114,7 +114,7 @@ def add_task():
         mongo.db.tasks.insert_one(task)
         flash("Task Successfully Added")
         return redirect(url_for("get_tasks"))
-        
+
     categories = mongo.db.categories.find().sort("category_name", 1)
     return render_template("add_task.html", categories=categories)
 
